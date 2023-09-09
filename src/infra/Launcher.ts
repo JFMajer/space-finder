@@ -7,8 +7,10 @@ import { ApiGWStack } from './stacks/ApiGatewayStack';
 
 
 const app = new cdk.App();
-new DataStack(app, 'DataStack', {});
-const lambda = new LambdaStack(app, 'LambdaStack', {});
+const dataStack = new DataStack(app, 'DataStack', {});
+const lambda = new LambdaStack(app, 'LambdaStack', {
+    spacesTable: dataStack.spacesTable,
+});
 new ApiGWStack(app, 'ApiGateway', {
     lambdaIntegration: lambda.lambdaIntegration,
 });
