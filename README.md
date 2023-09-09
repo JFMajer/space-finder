@@ -1,4 +1,5 @@
-## Space finder, simple serverless application deployed using Typescript CDK v2
+## Space finder
+# Simple serverless application deployed using Typescript CDK v2
 
 ## CDK Commands
 
@@ -16,6 +17,7 @@
 ## CDK project creation
 * `npm init -y` - Create a new npm project
 * `npm i -D aws-cdk aws-cdk-lib constructs` - Install the CDK dependencies
+Create a .gitignore file with the following content:
 ```bash
 cat <<EOF >> .gitignore
 *.js
