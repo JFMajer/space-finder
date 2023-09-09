@@ -16,15 +16,17 @@
 ## CDK project creation
 * `npm init -y` - Create a new npm project
 * `npm i -D aws-cdk aws-cdk-lib constructs` - Install the CDK dependencies
-* `cat <<EOF >> .gitignore
+```bash
+cat <<EOF >> .gitignore
 *.js
 !jest.config.js
 *.d.ts
 node_modules
 
-# CDK asset staging directory
+CDK asset staging directory
 .cdk.staging
 cdk.out
-EOF`
+EOF
+```
 * `npm i -D typescript ts-node` - Install Typescript and ts-node
 * `mkdir -p src/infra/stacks && touch src/infra/stacks/DataStack.ts src/infra/Launcher.ts` - Create the project structure
