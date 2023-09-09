@@ -1,5 +1,5 @@
 ## Space finder
-# Simple serverless application deployed using Typescript CDK v2
+### Simple serverless application deployed using Typescript CDK v2
 
 ## CDK Commands
 
