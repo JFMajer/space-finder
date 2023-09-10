@@ -16,7 +16,7 @@
 
 ## CDK project creation
 * `npm init -y` - Create a new npm project
-* `npm i -D aws-cdk aws-cdk-lib constructs` - Install the CDK dependencies
+* `npm i -D aws-cdk aws-cdk-lib constructs` - Install the CDK dependencies<br>
 Create a .gitignore file with the following content:
 ```bash
 cat <<EOF >> .gitignore
@@ -32,3 +32,5 @@ EOF
 ```
 * `npm i -D typescript ts-node` - Install Typescript and ts-node
 * `mkdir -p src/infra/stacks && touch src/infra/stacks/DataStack.ts src/infra/Launcher.ts` - Create the project structure
+* `npm i -D @types/aws-lambda` - Install the types for AWS Lambda
+* `npm i uuid @types/uuid` - Install uuid and its types
