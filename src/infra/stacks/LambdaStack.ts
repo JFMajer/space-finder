@@ -12,11 +12,12 @@ interface LamdaStackProps extends cdk.StackProps {
 
 export class LambdaStack extends cdk.Stack{
 
-    public readonly lambdaIntegration: LambdaIntegration;
+    public readonly lambdaIntegration: LambdaIntegration[] = [];
 
     constructor(scope: Construct, id: string, props: LamdaStackProps) {
         super(scope, id, props);
 
+        //my hello function
         const lambda = new NodejsFunction(this, 'HelloLambda', {
             runtime: Runtime.NODEJS_18_X,
             handler: "handler",
@@ -27,7 +28,16 @@ export class LambdaStack extends cdk.Stack{
             logRetention: 1,
         })
 
-        this.lambdaIntegration = new LambdaIntegration(lambda);
+        //function that lists s3 bucket
+        const s3lambda = new NodejsFunction(this, 'S3Lambda', {
+            runtime: Runtime.NODEJS_18_X,
+            handler: "handler",
+            entry: join(__dirname, '..', '..', 'services', 's3lambda.ts'),
+            logRetention: 1,
+        })
+
+        this.lambdaIntegration.push(new LambdaIntegration(lambda));
+        this.lambdaIntegration.push(new LambdaIntegration(s3lambda));
 
     }
 
