@@ -34,3 +34,5 @@ EOF
 * `mkdir -p src/infra/stacks && touch src/infra/stacks/DataStack.ts src/infra/Launcher.ts` - Create the project structure
 * `npm i -D @types/aws-lambda` - Install the types for AWS Lambda
 * `npm i uuid @types/uuid` - Install uuid and its types
+
+![Alt diagram](diagram.png)
