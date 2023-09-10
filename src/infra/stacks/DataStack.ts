@@ -21,6 +21,7 @@ export class DataStack extends cdk.Stack {
         tableName: `spaces-${stackSuffix}`,
         readCapacity: 1,
         writeCapacity: 1,
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
 
