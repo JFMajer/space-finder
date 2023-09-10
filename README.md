@@ -17,7 +17,7 @@
 ## CDK project creation
 * `npm init -y` - Create a new npm project
 * `npm i -D aws-cdk aws-cdk-lib constructs` - Install the CDK dependencies<br>
-Create a .gitignore file with the following content:
+* Create a .gitignore file with the following content:
 ```bash
 cat <<EOF >> .gitignore
 *.js
