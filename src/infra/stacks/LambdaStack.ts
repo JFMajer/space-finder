@@ -55,6 +55,16 @@ export class LambdaStack extends cdk.Stack {
       logRetention: 1,
     });
 
+    spacesLambda.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: [
+          'dynamodb:PutItem',
+        ],
+        resources: [props.spacesTable.tableArn],
+      })
+    );
+
     this.lambdaIntegration.push(new LambdaIntegration(lambda));
     this.lambdaIntegration.push(new LambdaIntegration(s3lambda));
     this.lambdaIntegration.push(new LambdaIntegration(spacesLambda));
