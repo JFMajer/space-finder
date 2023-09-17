@@ -104,6 +104,19 @@ digraph "Diagram" {
           width = 2,
           height = 2.266,
         ];
+        "LambdaStack/SpacesLambda" [
+          label = " SpacesLambda",
+          fontsize = 12,
+          image = "/home/kuba/Desktop/cdk-ts/space-finder/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 2,
+          height = 2.266,
+        ];
         "LambdaStack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole" [
           label = " ServiceRole",
           fontsize = 12,
@@ -149,10 +162,16 @@ digraph "Diagram" {
   "LambdaStack/HelloLambda" -> "DataStack/SpacesTable" [
     dir = "both",
   ];
+  "LambdaStack/SpacesLambda" -> "DataStack/SpacesTable" [
+    dir = "both",
+  ];
   "ApiGateway/ApiGW" -> "LambdaStack/HelloLambda" [
     dir = "both",
   ];
   "ApiGateway/ApiGW" -> "LambdaStack/S3Lambda" [
+    dir = "both",
+  ];
+  "ApiGateway/ApiGW" -> "LambdaStack/SpacesLambda" [
     dir = "both",
   ];
 }
