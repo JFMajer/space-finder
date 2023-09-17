@@ -1,25 +1,14 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResultV2 } from "aws-lambda";
-import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
-import { v4 } from "uuid";
+import { DynamoDBClient, ScanCommand } from "@aws-sdk/client-dynamodb";
 
-async function postSpaces(
+async function getSpaces(
   event: APIGatewayProxyEvent,
   ddbclient: DynamoDBClient
 ): Promise<APIGatewayProxyResultV2> {
-  const randomId = v4();
-  const item = JSON.parse(event.body || "{}");
-
   const result = await ddbclient.send(
-    new PutItemCommand({
+    new ScanCommand({
+      ReturnConsumedCapacity: "TOTAL",
       TableName: process.env.TABLE_NAME,
-      Item: {
-        id: {
-          S: randomId,
-        },
-        location: {
-          S: item.location,
-        },
-      },
     })
   );
 
@@ -31,13 +20,12 @@ async function postSpaces(
   const response: APIGatewayProxyResultV2 = {
     statusCode: 201,
     body: JSON.stringify({
-        id: randomId,
-        location: item.location,
-        consumedCapacity: consumedCapacity,
+      result: result.Items,
+      consumedCapacity: consumedCapacity,
     }),
   };
 
   return response;
 }
 
-export { postSpaces };
+export { getSpaces };

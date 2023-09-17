@@ -4,6 +4,7 @@ import {
   Context,
 } from "aws-lambda";
 import { postSpaces } from "./PostSpaces";
+import { getSpaces } from "./GetSpaces";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 const ddbClient = new DynamoDBClient({});
@@ -17,11 +18,11 @@ async function handler(
   try {
     switch (event.httpMethod) {
       case "GET":
-        message = "Method is GET";
-        break;
+        const getResponse = getSpaces(event, ddbClient);
+        return getResponse;
       case "POST":
-        const response = postSpaces(event, ddbClient);
-        return response;
+        const postResponse = postSpaces(event, ddbClient);
+        return postResponse;
       default:
         message = "Method is not GET or POST";
         break;
@@ -29,9 +30,9 @@ async function handler(
   } catch (error: any) {
     console.log("error", error);
     return {
-        statusCode: 500,
-        body: JSON.stringify(error.message),
-    }
+      statusCode: 500,
+      body: JSON.stringify(error.message),
+    };
   }
 
   const response: APIGatewayProxyResultV2 = {
