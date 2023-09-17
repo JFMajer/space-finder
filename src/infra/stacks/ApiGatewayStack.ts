@@ -14,24 +14,33 @@ export class ApiGWStack extends cdk.Stack {
     const resources = [
       {
         path: "hello",
-        method: "GET",
+        methods: ["GET"],
         lambdaIntegration: props.lambdaIntegration[0],
       },
       {
         path: "s3",
-        method: "GET",
+        methods: ["GET"],
         lambdaIntegration: props.lambdaIntegration[1],
       },
       {
         path: "spaces",
-        method: "GET",
+        methods: ["GET", "POST"],
         lambdaIntegration: props.lambdaIntegration[2],
       },
     ];
 
-    resources.forEach((resource) => {
-      const apiResource = api.root.addResource(resource.path);
-      apiResource.addMethod(resource.method, resource.lambdaIntegration);
+    resources.forEach((resourceConfig) => {
+      const { path, methods, lambdaIntegration } = resourceConfig;
+      const resource = api.root.addResource(path);
+
+     if (Array.isArray(methods)) {
+        methods.forEach((method) => {
+          resource.addMethod(method, lambdaIntegration);
+        });
+      }
+
+      console.log(`Added path "${path}" with methods: ${methods?.join(', ')}`);
+
     });
 
     const apiGWURLSpace = new cdk.CfnOutput(this, "apiGWURLSpace", {
@@ -40,6 +49,10 @@ export class ApiGWStack extends cdk.Stack {
 
     const apiGWURLS3 = new cdk.CfnOutput(this, "apiGWURLS3", {
         value: api.url + "s3",
+        });
+
+    const apiGWURLHello = new cdk.CfnOutput(this, "apiGWURLHello", {
+        value: api.url + "hello",
         });
   }
 }
