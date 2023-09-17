@@ -13,7 +13,7 @@ export class ApiGWStack extends cdk.Stack {
     const api = new RestApi(this, "ApiGW", {});
     const resources = [
       {
-        path: "spaces",
+        path: "hello",
         method: "GET",
         lambdaIntegration: props.lambdaIntegration[0],
       },
@@ -21,6 +21,11 @@ export class ApiGWStack extends cdk.Stack {
         path: "s3",
         method: "GET",
         lambdaIntegration: props.lambdaIntegration[1],
+      },
+      {
+        path: "spaces",
+        method: "GET",
+        lambdaIntegration: props.lambdaIntegration[2],
       },
     ];
 

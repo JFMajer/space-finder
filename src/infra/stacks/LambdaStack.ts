@@ -44,7 +44,19 @@ export class LambdaStack extends cdk.Stack {
       })
     );
 
+    //spaces lambda
+    const spacesLambda = new NodejsFunction(this, "SpacesLambda", {
+      runtime: Runtime.NODEJS_18_X,
+      handler: "handler",
+      entry: join(__dirname, "..", "..", "services", "spaces", "handler.ts"),
+      environment: {
+        TABLE_NAME: props.spacesTable.tableName,
+      },
+      logRetention: 1,
+    });
+
     this.lambdaIntegration.push(new LambdaIntegration(lambda));
     this.lambdaIntegration.push(new LambdaIntegration(s3lambda));
+    this.lambdaIntegration.push(new LambdaIntegration(spacesLambda));
   }
 }
