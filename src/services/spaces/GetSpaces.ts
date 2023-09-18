@@ -23,6 +23,17 @@ async function getSpaces(
       );
 
       const result = scanResult.Items;
+      const unmarshalledItems = result?.map((item) => unmarshall(item));
+      if (!unmarshalledItems) {
+        return {
+          statusCode: 404,
+          body: JSON.stringify({
+            message: "No items found",
+            consumedCapacity: scanResult.ConsumedCapacity,
+          }),
+        };
+      }
+
       console.log("result", result);
       const consumedCapacity = scanResult.ConsumedCapacity;
       console.log("consumedCapacity", consumedCapacity);
@@ -30,7 +41,7 @@ async function getSpaces(
       return {
         statusCode: 200,
         body: JSON.stringify({
-          result: result,
+          result: unmarshalledItems,
           consumedCapacity: consumedCapacity,
         }),
       };
