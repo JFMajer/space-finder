@@ -5,6 +5,7 @@ import {
 } from "aws-lambda";
 import { postSpaces } from "./PostSpaces";
 import { getSpaces } from "./GetSpaces";
+import { putSpaces } from "./PutSpaces";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 
 const ddbClient = new DynamoDBClient({});
@@ -18,11 +19,14 @@ async function handler(
   try {
     switch (event.httpMethod) {
       case "GET":
-        const getResponse = getSpaces(event, ddbClient);
+        const getResponse = await getSpaces(event, ddbClient);
         return getResponse;
       case "POST":
-        const postResponse = postSpaces(event, ddbClient);
+        const postResponse = await postSpaces(event, ddbClient);
         return postResponse;
+      case "PUT":
+        const putResponse = await putSpaces(event, ddbClient);
+        return putResponse;
       default:
         message = "Method is not GET or POST";
         break;

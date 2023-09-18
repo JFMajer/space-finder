@@ -62,6 +62,7 @@ export class LambdaStack extends cdk.Stack {
           'dynamodb:PutItem',
           'dynamodb:GetItem',
           'dynamodb:Scan',
+          'dynamodb:UpdateItem',
         ],
         resources: [props.spacesTable.tableArn],
       })

@@ -3,7 +3,6 @@ import {
   DynamoDBClient,
   ScanCommand,
   GetItemCommand,
-  GetItemCommandOutput,
 } from "@aws-sdk/client-dynamodb";
 import { unmarshall } from "@aws-sdk/util-dynamodb";
 

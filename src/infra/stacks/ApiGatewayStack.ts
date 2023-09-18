@@ -24,7 +24,7 @@ export class ApiGWStack extends cdk.Stack {
       },
       {
         path: "spaces",
-        methods: ["GET", "POST"],
+        methods: ["GET", "POST", "PUT"],
         lambdaIntegration: props.lambdaIntegration[2],
       },
     ];
