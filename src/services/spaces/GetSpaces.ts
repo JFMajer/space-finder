@@ -3,7 +3,9 @@ import {
   DynamoDBClient,
   ScanCommand,
   GetItemCommand,
+  GetItemCommandOutput,
 } from "@aws-sdk/client-dynamodb";
+import { unmarshall } from "@aws-sdk/util-dynamodb";
 
 async function getSpaces(
   event: APIGatewayProxyEvent,
@@ -52,20 +54,22 @@ async function getSpaces(
         })
       );
       const consumedCapacity = getItemResult.ConsumedCapacity;
+      
 
-      if(!getItemResult.Item) {
+      if (!getItemResult.Item) {
         return {
           statusCode: 404,
           body: JSON.stringify({
             message: "Not Found",
             consumedCapacity: consumedCapacity,
           }),
-        }
+        };
       } else {
+        const unmarshalledItem = unmarshall(getItemResult.Item);
         return {
           statusCode: 200,
           body: JSON.stringify({
-            result: getItemResult.Item,
+            result: unmarshalledItem,
             consumedCapacity: consumedCapacity,
           }),
         };
@@ -81,8 +85,7 @@ async function getSpaces(
   return {
     statusCode: 400,
     body: JSON.stringify("Bad Request"),
-  }
-
+  };
 }
 
 export { getSpaces };
