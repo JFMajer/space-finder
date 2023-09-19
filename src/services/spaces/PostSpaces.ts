@@ -2,6 +2,7 @@ import { APIGatewayProxyEvent, APIGatewayProxyResultV2 } from "aws-lambda";
 import { DynamoDBClient, PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { marshall } from "@aws-sdk/util-dynamodb";
 import { v4 } from "uuid";
+import { validateAsSpaceEntry } from "../shared/Validator";
 
 async function postSpaces(
   event: APIGatewayProxyEvent,
@@ -10,11 +11,13 @@ async function postSpaces(
   const randomId = v4();
   const item = JSON.parse(event.body || "{}");
   item.id = randomId;
+  validateAsSpaceEntry(item);
 
   const result = await ddbclient.send(
     new PutItemCommand({
       TableName: process.env.TABLE_NAME,
       Item: marshall(item),
+      ReturnConsumedCapacity: "TOTAL",
     })
   );
 

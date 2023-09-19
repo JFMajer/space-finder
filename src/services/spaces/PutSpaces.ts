@@ -38,6 +38,7 @@ async function putSpaces(
             "#attrName": requestBodyKey,
           },
           ReturnValues: "UPDATED_NEW",
+          ReturnConsumedCapacity: "TOTAL",
         })
       );
 

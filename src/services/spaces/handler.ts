@@ -6,7 +6,9 @@ import {
 import { postSpaces } from "./PostSpaces";
 import { getSpaces } from "./GetSpaces";
 import { putSpaces } from "./PutSpaces";
+import { deleteSpaces } from "./DeleteSpaces";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { MissingFieldError } from "../shared/Validator";
 
 const ddbClient = new DynamoDBClient({});
 
@@ -27,12 +29,23 @@ async function handler(
       case "PUT":
         const putResponse = await putSpaces(event, ddbClient);
         return putResponse;
+      case "DELETE":
+        const deleteResponse = await deleteSpaces(event, ddbClient);
+        return deleteResponse;
       default:
-        message = "Method is not GET or POST";
+        message = "Method unsupported";
         break;
     }
   } catch (error: any) {
     console.log("error", error);
+    if (error instanceof MissingFieldError) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message: error.message,
+        }),
+      };
+    }
     return {
       statusCode: 500,
       body: JSON.stringify(error.message),
