@@ -9,6 +9,7 @@ import { putSpaces } from "./PutSpaces";
 import { deleteSpaces } from "./DeleteSpaces";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { MissingFieldError } from "../shared/Validator";
+import { JSONError } from "../shared/Utils";
 
 const ddbClient = new DynamoDBClient({});
 
@@ -42,6 +43,15 @@ async function handler(
       return {
         statusCode: 400,
         body: JSON.stringify({
+          message: error.message,
+        }),
+      };
+    }
+    if (error instanceof JSONError) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          errorType: "Json parsing error",
           message: error.message,
         }),
       };
